@@ -7,6 +7,7 @@ const https = require('https');
 const fs = require('fs');
 
 const audioStore = require('./routes/audio-store');
+const photos = require('./routes/photos');
 
 require('dotenv').config();
 
@@ -15,8 +16,9 @@ const app = express();
 app.use(helmet.contentSecurityPolicy({
   useDefaults: true,
   directives: {
-    defaultSrc: ["'self'"],
-    imgSrc: ["'self'", 'data:'],
+    defaultSrc: ["'self'", "'unsafe-inline'"],
+    fontSrc: ["'self'", 'data:'],
+    imgSrc: ["'self'", 'data:', 'https://a.tile.openstreetmap.org', 'https://b.tile.openstreetmap.org', 'https://c.tile.openstreetmap.org'],
     mediaSrc: ["'self'", 'data:'],
     scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://storage.googleapis.com'],
   },
@@ -42,6 +44,7 @@ app.use(expressWinston.logger({
 }));
 
 app.use('/audio-store', audioStore);
+app.use('/photos', photos);
 
 const httpsServer = https.createServer({
   key: fs.readFileSync(__dirname + '/sslcert/privkey1.pem', 'utf8'),

@@ -1,0 +1,18 @@
+{
+  "input": "G:/_STORAGE_/pictures/2021",
+  "filter-input-path": "file://filter.js",
+  "output": "../../../../static/101721-camping",
+  "concurrency": 6,
+  "large-size": 10000,
+  "photo-quality": 100,
+  "video-framerate": "preserve",
+  "video-bitrate": "6000k",
+  "theme": "classic",
+  "theme-path": "C:/Users/Kai/Documents/workspace/thumbsup/theme-classic",
+  "title": "Camping Trip - October 17, 2021",
+  "log": "debug",
+  "albums-from": "All",
+  "sort-albums-by": "start-date",
+  "embed-exif": true,
+  "cleanup": true
+}
