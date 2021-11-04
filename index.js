@@ -29,7 +29,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(expressWinston.logger({
   transports: [
-    new winston.transports.Console()
+    new winston.transports.Console(),
+    new winston.transports.File({
+      filename: `./log/${new Date().getTime()}-log.txt`,
+    }),
   ],
   format: winston.format.combine(
     winston.format.label({ label: 'server'}),
