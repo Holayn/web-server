@@ -17,11 +17,11 @@ app.use(helmet.contentSecurityPolicy({
   useDefaults: true,
   directives: {
     defaultSrc: ["'self'", "'unsafe-inline'"],
-    fontSrc: ["'self'", 'data:', 'https://cdnjs.cloudflare.com'],
+    fontSrc: ["'self'", 'data:', 'https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'],
     imgSrc: ["'self'", 'data:', 'https://a.tile.openstreetmap.org', 'https://b.tile.openstreetmap.org', 'https://c.tile.openstreetmap.org', 'https://cdnjs.cloudflare.com'],
     mediaSrc: ["'self'", 'data:'],
-    styleSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com'],
-    scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://storage.googleapis.com', 'https://cdnjs.cloudflare.com'],
+    styleSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com', 'https://cdn.jsdelivr.net'],
+    scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://storage.googleapis.com', 'https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net'],
   },
 }));
 app.use(cors());
