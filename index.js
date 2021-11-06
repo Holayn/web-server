@@ -1,6 +1,7 @@
 const express = require("express");
 const helmet = require("helmet");
 const winston = require('winston');
+require('winston-loggly-bulk');
 const expressWinston = require('express-winston');
 const cors = require('cors');
 const https = require('https');
@@ -32,6 +33,12 @@ app.use(expressWinston.logger({
     new winston.transports.Console(),
     new winston.transports.File({
       filename: `./log/${new Date().getTime()}-log.txt`,
+    }),
+    new winston.transports.Loggly({
+      inputToken: process.env.LOGGLY_TOKEN,
+      subdomain: process.env.LOGGLY_SUBDOMAIN,
+      tags: ['web-server'],
+      json: true,
     }),
   ],
   format: winston.format.combine(
