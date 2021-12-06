@@ -2,7 +2,7 @@
   "input": "G:/_STORAGE_/pictures/2021",
   "exclude": ["test/**", "jpgs/**"],
   "filter-input-path": "file://filter.js",
-  "output": "../../../../static/101721-camping",
+  "output": "../../../../static/photos/media/101721-camping",
   "concurrency": 6,
   "large-size": 10000,
   "photo-quality": 100,

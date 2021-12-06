@@ -1,5 +1,4 @@
 const express = require("express");
-const helmet = require("helmet");
 const winston = require('winston');
 require('winston-loggly-bulk');
 const expressWinston = require('express-winston');
@@ -14,17 +13,6 @@ require('dotenv').config();
 
 const app = express();
 
-app.use(helmet.contentSecurityPolicy({
-  useDefaults: true,
-  directives: {
-    defaultSrc: ["'self'", "'unsafe-inline'"],
-    fontSrc: ["'self'", 'data:', 'https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'],
-    imgSrc: ["'self'", 'data:', 'https://a.tile.openstreetmap.org', 'https://b.tile.openstreetmap.org', 'https://c.tile.openstreetmap.org', 'https://cdnjs.cloudflare.com'],
-    mediaSrc: ["'self'", 'data:'],
-    styleSrc: ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com', 'https://cdn.jsdelivr.net'],
-    scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://storage.googleapis.com', 'https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net'],
-  },
-}));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
