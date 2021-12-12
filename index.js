@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const winston = require('winston');
 require('winston-loggly-bulk');
 const expressWinston = require('express-winston');
@@ -44,6 +45,7 @@ app.use(expressWinston.logger({
 
 app.use('/audio-store', audioStore);
 app.use('/photos', photos);
+app.use('/favicon.ico', express.static(path.join(__dirname, './static/favicon.ico')));
 
 const httpsServer = https.createServer({
   key: fs.readFileSync(__dirname + '/sslcert/privkey1.pem', 'utf8'),
