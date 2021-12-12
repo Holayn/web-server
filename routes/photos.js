@@ -10,7 +10,7 @@ router.use('/', createProxyMiddleware('/', {
     return path.split('/').slice(2).join('/');
   },
   secure: false,
-  target: 'http://192.168.0.133:8000',
+  target: 'http://localhost:8000',
 }));
 
 module.exports = router;
