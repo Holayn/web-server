@@ -1,11 +1,10 @@
-const express = require("express");
+const express = require('express');
 const path = require('path');
-const winston = require('winston');
-require('winston-loggly-bulk');
-const expressWinston = require('express-winston');
 const cors = require('cors');
 const https = require('https');
 const fs = require('fs');
+
+const logger = require('./services/logger');
 
 const audioStore = require('./routes/audio-store');
 const photos = require('./routes/photos');
@@ -17,31 +16,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(expressWinston.logger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({
-      filename: `./log/${new Date().getTime()}-log.txt`,
-    }),
-    new winston.transports.Loggly({
-      inputToken: process.env.LOGGLY_TOKEN,
-      subdomain: process.env.LOGGLY_SUBDOMAIN,
-      tags: ['web-server'],
-      json: true,
-    }),
-  ],
-  format: winston.format.combine(
-    winston.format.label({ label: 'server'}),
-    winston.format.timestamp(),
-    winston.format.printf(({ level, message, label, timestamp }) => {
-      return `${timestamp} [${label}] ${level}: ${message}`;
-    },
-  )),
-  meta: false,
-  msg: "HTTP {{req.method}} {{req.url}}",
-  expressFormat: true,
-  colorize: false,
-}));
+app.use((req, res, next) => {
+  const { baseUrl, hostname, ip, method, originalUrl } = req;
+  const log = {
+    baseUrl,
+    hostname,
+    ip,
+    method,
+    status: res.statusCode,
+    timestamp: new Date(),
+    url: originalUrl,
+    userAgent: req.headers['user-agent'],
+  };
+  logger.info('Request Logging', log);
+  next();
+});
 
 app.use('/audio-store', audioStore);
 app.use('/photos', photos);
