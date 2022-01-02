@@ -39,8 +39,8 @@ app.use('/photos', photos);
 app.use('/favicon.ico', express.static(path.join(__dirname, './static/favicon.ico')));
 
 const httpsServer = https.createServer({
-  key: fs.readFileSync(__dirname + '/sslcert/privkey1.pem', 'utf8'),
-  cert: fs.readFileSync(__dirname + '/sslcert/fullchain1.pem', 'utf8'),
+  key: fs.readFileSync(__dirname + '/sslcert/privkey.pem', 'utf8'),
+  cert: fs.readFileSync(__dirname + '/sslcert/fullchain.pem', 'utf8'),
 }, app);
 const port = process.env.PORT || 8000;
 httpsServer.listen(port, () => {
