@@ -8,6 +8,7 @@ const logger = require('./services/logger');
 
 const audioStore = require('./routes/audio-store');
 const photos = require('./routes/photos');
+const budget = require('./routes/budget');
 
 require('dotenv').config();
 
@@ -36,6 +37,7 @@ app.use((req, res, next) => {
 
 app.use('/audio-store', audioStore);
 app.use('/photos', photos);
+app.use('/budget', budget);
 app.use('/favicon.ico', express.static(path.join(__dirname, './static/favicon.ico')));
 
 const httpsServer = https.createServer({
