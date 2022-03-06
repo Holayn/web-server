@@ -44,7 +44,7 @@ const httpsServer = https.createServer({
   key: fs.readFileSync(__dirname + '/sslcert/privkey.pem', 'utf8'),
   cert: fs.readFileSync(__dirname + '/sslcert/fullchain.pem', 'utf8'),
 }, app);
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 443;
 httpsServer.listen(port, () => {
-  console.log(`---Server started on ${port}---`);
+  console.log(`---HTTPS started on ${port}---`);
 });
