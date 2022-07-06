@@ -36,6 +36,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/healthcheck', (req, res) => res.sendStatus(200));
 app.use('/audio-store', audioStore);
 app.use('/photos', photos);
 app.use('/budget', budget);
