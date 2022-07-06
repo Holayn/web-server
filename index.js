@@ -40,7 +40,6 @@ app.use('/healthcheck', (req, res) => res.sendStatus(200));
 app.use('/audio-store', audioStore);
 app.use('/photos', photos);
 app.use('/budget', budget);
-app.use('/favicon.ico', express.static(path.join(__dirname, './static/favicon.ico')));
 app.use('/', express.static(path.join(__dirname, './static')));
 
 app.listen(80, () => {
