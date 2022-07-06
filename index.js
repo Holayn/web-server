@@ -40,7 +40,7 @@ app.use('/audio-store', audioStore);
 app.use('/photos', photos);
 app.use('/budget', budget);
 app.use('/favicon.ico', express.static(path.join(__dirname, './static/favicon.ico')));
-app.use('/static', express.static(path.join(__dirname, './static')));
+app.use('/', express.static(path.join(__dirname, './static')));
 
 app.listen(80, () => {
   console.log(`---HTTP started on 80---`);
@@ -48,8 +48,8 @@ app.listen(80, () => {
 
 try {
   const httpsServer = https.createServer({
-    key: fs.readFileSync(__dirname + '/sslcert/privkey.pem', 'utf8'),
-    cert: fs.readFileSync(__dirname + '/sslcert/fullchain.pem', 'utf8'),
+    cert: fs.readFileSync(path.join(__dirname, './sslcert/fullchain.pem')),
+    key: fs.readFileSync(path.join(__dirname, './sslcert/privkey.pem')),
   }, app);
   const port = process.env.PORT || 443;
   httpsServer.listen(port, () => {
