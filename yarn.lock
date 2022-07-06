@@ -562,10 +562,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"helmet@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "helmet@npm:4.5.0"
-  checksum: 95b2eddeb7811ad34135a96b192cab1c630f946f5e0dd86461da70f1fed76732129663b73bdf53550ab13e6f2137e692e4f2925bbb10132754066d63d408fe1f
+"helmet@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "helmet@npm:5.1.0"
+  checksum: 076958ed8262b72e77276f9e7e9a5e3628b3a44bf39a64a856e919fd3d5a887d3a29b58c1729dfdb0645afd440e763d29a871e866f1fa658f91a718da82ca052
   languageName: node
   linkType: hard
 
@@ -1349,7 +1349,7 @@ __metadata:
     cors: ^2.8.5
     dotenv: ^10.0.0
     express: ^4.17.1
-    helmet: ^4.5.0
+    helmet: ^5.1.0
     http-proxy-middleware: ^2.0.1
     winston: ^3.3.3
     winston-loggly-bulk: ^3.2.1
