@@ -20,6 +20,7 @@ router.use(
     },
   })
 );
+router.use(helmet.crossOriginOpenerPolicy({ policy: 'unsafe-none' }));
 router.use('/', express.static(process.env.KEEPASS_PATH));
 
 module.exports = router;
