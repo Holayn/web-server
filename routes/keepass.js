@@ -12,7 +12,7 @@ router.use(
       fontSrc: ['data:'],
       formAction: ["'none'"],
       imgSrc: ["'self'", 'data:', 'blob:', ' https://services.keeweb.info/'],
-      scriptSrc: ["'sha512-jYN26k9MdXnhqu7Ssy7r+y/87ND1Br7yx4NzRHwx8dSII1LvinqIRKaXoIb0ObI9HQFILRWBg5gPRszhILAC9g=='", "'unsafe-eval'"],
+      scriptSrc: ["'sha512-jYN26k9MdXnhqu7Ssy7r+y/87ND1Br7yx4NzRHwx8dSII1LvinqIRKaXoIb0ObI9HQFILRWBg5gPRszhILAC9g=='", "'unsafe-eval'", "'nonce-2726c7f26c'"],
       styleSrc: ["'sha512-63edYbLgq599MAsyyqgCBk18k1RCKpZ3FjZ9G3l0pQlvxVchNVaPhiAE+GwP9NKPZVIinJuNXJx2xY1tZkzvZg=='", 'blob:'],
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
