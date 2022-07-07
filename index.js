@@ -44,8 +44,8 @@ app.use('/budget', budget);
 app.use('/keepass', keepass);
 app.use('/', express.static(path.join(__dirname, './static')));
 
-app.listen(80, () => {
-  console.log(`---HTTP started on 80---`);
+app.listen(8080, () => {
+  console.log(`---HTTP started on 8080---`);
 });
 
 try {
