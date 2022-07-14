@@ -15,7 +15,6 @@ require('dotenv').config();
 
 const app = express();
 
-// Don't reveal this information...
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
