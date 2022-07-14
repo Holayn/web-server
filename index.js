@@ -9,7 +9,6 @@ const logger = require('./services/logger');
 
 const audioStore = require('./routes/audio-store');
 const photos = require('./routes/photos');
-const budget = require('./routes/budget');
 const keepass = require('./routes/keepass');
 
 require('dotenv').config();
@@ -40,7 +39,6 @@ app.use((req, res, next) => {
 app.use('/healthcheck', (req, res) => res.sendStatus(200));
 app.use('/audio-store', audioStore);
 app.use('/photos', photos);
-app.use('/budget', budget);
 app.use('/keepass', keepass);
 app.use('/', express.static(path.join(__dirname, './static')));
 
