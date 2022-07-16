@@ -1,60 +1,47 @@
 const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const https = require('https');
 const fs = require('fs');
-const helmet = require('helmet');
+const https = require('https');
+const http = require('http');
+const path = require('path');
 
-const logger = require('./services/logger');
+const serverFactory = require('./services/server-factory');
 
 const audioStore = require('./routes/audio-store');
-const photos = require('./routes/photos');
+const budget = require('./routes/budget');
 const keepass = require('./routes/keepass');
+const photos = require('./routes/photos');
 
 require('dotenv').config();
 
-const app = express();
-
-app.use(cors());
-app.use(helmet());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-  const { baseUrl, hostname, ip, method, originalUrl } = req;
-  const log = {
-    baseUrl,
-    hostname,
-    ip,
-    method,
-    status: res.statusCode,
-    timestamp: new Date(),
-    url: originalUrl,
-    userAgent: req.headers['user-agent'],
-  };
-  logger.info('Request Logging', log);
-  next();
+const httpApp = serverFactory.createServer();
+const httpPort = process.env.HTTP_PORT || 80;
+httpApp.use('/', express.static(path.join(__dirname, './static')));
+http.createServer(httpApp).listen(httpPort, () => {
+  console.log(`---HTTP started on ${httpPort}---`);
 });
 
-app.use('/healthcheck', (req, res) => res.sendStatus(200));
-app.use('/audio-store', audioStore);
-app.use('/photos', photos);
-app.use('/keepass', keepass);
-app.use('/', express.static(path.join(__dirname, './static')));
-
-app.listen(8080, () => {
-  console.log(`---HTTP started on 8080---`);
+const internalApp = serverFactory.createServer();
+const internalPort = process.env.INTERNAL_PORT || 9000;
+internalApp.use('/audio-store', audioStore);
+internalApp.use('/budget', budget);
+internalApp.use('/healthcheck', (req, res) => res.sendStatus(200));
+http.createServer(internalApp).listen(internalPort, () => {
+  console.log(`---INTERNAL started on ${internalPort}---`);
 });
 
 try {
-  const httpsServer = https.createServer({
+  const httpsApp = serverFactory.createServer();
+  const httpsPort = process.env.HTTPS_PORT || 443;
+  httpsApp.use('/healthcheck', (req, res) => res.sendStatus(200));
+  httpsApp.use('/photos', photos);
+  httpsApp.use('/keepass', keepass);
+  https.createServer({
     cert: fs.readFileSync(path.join(__dirname, './sslcert/fullchain.pem')),
     key: fs.readFileSync(path.join(__dirname, './sslcert/privkey.pem')),
-  }, app);
-  const port = process.env.PORT || 443;
-  httpsServer.listen(port, () => {
-    console.log(`---HTTPS started on ${port}---`);
+  }, httpsApp).listen(httpsPort, () => {
+    console.log(`---HTTPS started on ${httpsPort}---`);
   });
 } catch (e) {
-  console.log('HTTPS server failed to start.');
+  console.error(e);
+  console.error('---HTTPS failed to start---');
 }
-

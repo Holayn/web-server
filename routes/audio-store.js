@@ -1,8 +1,8 @@
+const connectHistoryApiFallback = require('connect-history-api-fallback');
 const express = require('express');
-const history = require('connect-history-api-fallback');
-const path = require('path');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const helmet = require("helmet");
+const helmet = require('helmet');
+
+const serverFactory = require('../services/server-factory');
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.use(helmet.contentSecurityPolicy({
     scriptSrc: ['https://storage.googleapis.com', 'https://cdnjs.cloudflare.com', 'https://cdn.jsdelivr.net'],
   },
 }));
-router.use(history({
+router.use(connectHistoryApiFallback({
   rewrites: [
     {
       from: /^\/api/,
@@ -29,9 +29,6 @@ router.use(history({
   verbose: true
 }));
 
-router.use('/', express.static(path.join(__dirname, '../static/audio-store')));
-
-// Proxy to server running on local network
-router.use('/api', createProxyMiddleware({ target: 'https://192.168.0.133:8000', changeOrigin: true, secure: false }));
+router.use('/', serverFactory.createProxy(process.env.AUDIO_STORE_PORT));
 
 module.exports = router;

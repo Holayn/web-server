@@ -6,6 +6,6 @@ require('dotenv').config();
 
 const router = express.Router();
 
-router.use('/', serverFactory.createProxy(process.env.PHOTOS_PORT));
+router.use('/', serverFactory.createProxy(process.env.BUDGET_PORT));
 
-module.exports = router;
+module.exports = router; 
