@@ -36,8 +36,8 @@ try {
   httpsApp.use('/photos', photos);
   httpsApp.use('/keepass', keepass);
   https.createServer({
-    cert: fs.readFileSync(path.join(__dirname, `./sslcert/${FILE_NAME_CERT}.pem`)),
-    key: fs.readFileSync(path.join(__dirname, `./sslcert/${FILE_NAME_KEY}.pem`)),
+    cert: fs.readFileSync(path.join(__dirname, `./sslcert/${process.env.FILE_NAME_CERT}.pem`)),
+    key: fs.readFileSync(path.join(__dirname, `./sslcert/${process.env.FILE_NAME_KEY}.pem`)),
   }, httpsApp).listen(httpsPort, () => {
     console.log(`---HTTPS started on ${httpsPort}---`);
   });
