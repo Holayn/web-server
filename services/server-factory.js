@@ -2,6 +2,7 @@ const cors = require('cors');
 const express = require('express');
 const helmet = require('helmet');
 const { createProxyMiddleware, fixRequestBody } = require('http-proxy-middleware');
+const morgan = require('morgan');
 
 const logger = require('./logger');
 
@@ -13,23 +14,15 @@ module.exports = class ServerFactory {
     app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use((req, res, next) => {
-      const { baseUrl, hostname, ip, method, originalUrl } = req;
-      const log = {
-        baseUrl,
-        hostname,
-        ip,
-        method,
-        status: res.statusCode,
-        timestamp: new Date(),
-        url: originalUrl,
-        userAgent: req.headers['user-agent'],
-      };
-
-      logger.info('Request Logging', log);
-
-      next();
-    });
+    const morganMiddleware = morgan(
+      ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
+      { 
+        stream: {
+          write: (message) => logger.http(message),
+        }
+      },
+    );
+    app.use(morganMiddleware);
 
     return app;
   }
