@@ -15,11 +15,40 @@ module.exports = class ServerFactory {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     const morganMiddleware = morgan(
-      ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
+      // https://betterstack.com/community/guides/logging/how-to-install-setup-and-use-winston-and-morgan-to-log-node-js-applications/#logging-in-an-express-application-using-winston-and-morgan
+      (tokens, req, res) => {
+        const message = {
+          remoteAddr: tokens['remote-addr'](req, res),
+          date: tokens['date'](req, res, 'iso'),
+          method: tokens.method(req, res),
+          url: tokens.url(req, res),
+          status: tokens.status(req, res),
+          responseTime: tokens['response-time'](req, res),
+          referrer: tokens['referrer'](req, res),
+          userAgent: tokens['user-agent'](req, res),
+        }
+
+        const messageStr = [
+          `${message.remoteAddr} - [${message.date}]`,
+          `"${message.method} ${message.url}"`,
+          message.status,
+          `${message.responseTime}ms`,
+          message.referrer,
+          message.userAgent,
+        ].join(' ');
+
+        return JSON.stringify({
+          message: messageStr,
+          ...message,
+        });
+      },
       { 
         stream: {
-          write: (message) => logger.http(message),
-        }
+          write: (message) => {
+            const { message: logMessage, ...meta } = JSON.parse(message);
+            logger.http(logMessage, meta);
+          }
+        },
       },
     );
     app.use(morganMiddleware);
