@@ -60,14 +60,15 @@ module.exports = class ServerFactory {
     return createProxyMiddleware({
       changeOrigin: true,
       onProxyReq: fixRequestBody,
-      onProxyRes: (proxyRes, req, res) => {
+      onProxyRes: proxyRes => {
         proxyRes.headers['content-security-policy'] = proxyRes.headers['content-security-policy'].replace('upgrade-insecure-requests', '');
       },
-      pathRewrite: (path) => {
+      pathRewrite: path => {
         return path.split('/').slice(2).join('/');
       },
       secure: false,
       target: `http://localhost:${port}`,
+      xfwd: true,
     });
   }
 }
